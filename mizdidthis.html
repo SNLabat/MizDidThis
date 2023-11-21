@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timer Since Event</title>
+<link href="https://fonts.googleapis.com/css?family=Cinzel&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Cinzel', serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('https://static.wikia.nocookie.net/wowpedia/images/0/01/Spirit_Healer.jpg/revision/latest?cb=20180609143933');
+    background-size: cover;
+    background-position: center;
+    color: #ffd700;
+    margin: 0;
+    padding: 0;
+    text-shadow: 2px 2px 4px #000;
+  }
+  #eventTitle {
+    font-size: 4em;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+  }
+  #timerDisplay {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ffd700;
+    font-size: 4em;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    display: inline-block;
+    min-width: 300px;
+    border-radius: 5px;
+  }
+  .twitch-embed {
+    margin-top: 20px;
+  }
+  .footer {
+    margin-top: 30px;
+    font-size: 4em;
+  }
+  .footer a {
+    color: #ffd700;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+  <div id="eventTitle">Days Since Mizkif Killed Emiru</div>
+  <div id="timerDisplay">00:00:00.000</div>
+  <div class="twitch-embed">
+    <iframe src="https://clips.twitch.tv/embed?clip=ShortStrongCobblerChefFrank-VKKn6BJl-W2ZfkCP&parent=www.mizdidthis.com"
+            frameborder="0"
+            allowfullscreen="true"
+            scrolling="no"
+            height="378"
+            width="620"></iframe>
+  </div>
+  <div class="footer">
+    Made by <a href="https://linktr.ee/Labat" target="_blank">Labat</a>
+  </div>
+
+  <script>
+    function getStartTime() {
+      var year = new Date().getFullYear();
+      var startTime = new Date(year, 10, 20, 23, 50, 0);
+
+      var utcStartTime = startTime.getTime() + (startTime.getTimezoneOffset() * 60000);
+      var cstOffset = 6 * 60 * 60000;
+      var cstStartTime = new Date(utcStartTime - cstOffset);
+
+      return cstStartTime;
+    }
+
+    var startTime = getStartTime();
+    var tInterval;
+
+    function getShowTime() {
+      var currentTime = new Date().getTime();
+      var difference = currentTime - startTime.getTime();
+
+      var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      days = (days < 10) ? "0" + days : days;
+      hours = (hours < 10) ? "0" + hours : hours;
+      minutes = (minutes < 10) ? "0" + minutes : minutes;
+      seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+      document.getElementById('timerDisplay').innerHTML = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+    }
+
+    tInterval = setInterval(getShowTime, 1000);
+  </script>
+</body>
+</html>
